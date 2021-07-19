@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  become_ask_pass: true
+
+  tasks:
+  - name: Install updates
+    ansible.builtin.apt:
+      update_cache: true
+      upgrade: full
