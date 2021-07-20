@@ -4,7 +4,39 @@
   become: true
 
   tasks:
-  - name: Install updates
+  - name: Install all updates
     ansible.builtin.apt:
       update_cache: true
-      upgrade: full
+      name: "*"
+      state: latest
+
+  - name: Disable predictable device naming
+    ansible.builtin.lineinfile:
+      path: /etc/default/grub
+      regexp: 'GRUB_CMDLINE_LINUX=""'
+      line: 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
+
+  - name: Update grub
+    command: /usr/sbin/update-grub
+
+  - name: Remove SSH host keys
+    ansible.builtin.file:
+      path: {{ item }}
+      state: absent
+    with_items:
+      - /etc/ssh/ssh_host_dsa_key
+      - /etc/ssh/ssh_host_dsa_key.pub
+      - /etc/ssh/ssh_host_ecdsa_key
+      - /etc/ssh/ssh_host_ecdsa_key.pub
+      - /etc/ssh/ssh_host_ed25519_key
+      - /etc/ssh/ssh_host_ed25519_key.pub
+      - /etc/ssh/ssh_host_rsa_key
+      - /etc/ssh/ssh_host_rsa_key.pub
+
+  # - name: Remove /etc/netplan/00-installer-config.yaml
+  #   ansible.builtin.file:
+  #     path: /etc/netplan/00-installer-config.yaml
+  #     state: absent
+
+  - name: Run cloud-init clean
+    command: /usr/bin/cloud-init clean
