@@ -21,7 +21,7 @@
 
   - name: Remove SSH host keys
     ansible.builtin.file:
-      path: {{ item }}
+      path: "{{ item }}"
       state: absent
     with_items:
       - /etc/ssh/ssh_host_dsa_key
