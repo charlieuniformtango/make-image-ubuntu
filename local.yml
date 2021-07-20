@@ -43,24 +43,3 @@
 
   - name: Rotate logs
     command: /usr/sbin/logrotate -f /etc/logrotate.conf
-
-  - name: Remove old logs
-    ansible.builtin.file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
-      - /var/log/alternatives.log.1
-      - /var/log/apt/history.log.1.gz
-      - /var/log/apt/term.log.1.gz
-      - /var/log/auth.log.1
-      - /var/log/btmp.1
-      - /var/log/cloud-init.log
-      - /var/log/cloud-init-output.log
-      - /var/log/dpkg.log.1
-      - /var/log/kern.log.1
-      - /var/log/syslog.1
-      - /var/log/ubuntu-advantage.log.1
-      - /var/log/unattended-upgrades/unattended-upgrades-dpkg.log.1.gz
-      - /var/log/unattended-upgrades/unattended-upgrades.log.1.gz
-      - /var/log/unattended-upgrades/unattended-upgrades-shutdown.log.1.gz
-      - /var/log/wtmp.1
