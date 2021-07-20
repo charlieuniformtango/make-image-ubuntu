@@ -4,10 +4,19 @@
   become: true
 
   tasks:
-  - name: Install all updates
+
+  - name: apt update
+    apt:
+      update_cache: yes
+
+  - name: apt upgrade
     ansible.builtin.apt:
-      update_cache: true
       name: "*"
+      state: latest
+
+  - name: apt install qemu-guest-agent
+    ansible.builtin.apt:
+      name: qemu-guest-agent
       state: latest
 
   - name: Disable predictable device naming
@@ -16,7 +25,7 @@
       regexp: 'GRUB_CMDLINE_LINUX=""'
       line: 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
 
-  - name: Update grub
+  - name: /usr/sbin/update-grub
     command: /usr/sbin/update-grub
 
   - name: Install /etc/netplan/00-installer-config.yaml
@@ -38,8 +47,8 @@
       - /etc/ssh/ssh_host_rsa_key
       - /etc/ssh/ssh_host_rsa_key.pub
 
-  - name: Run cloud-init clean
+  - name: /usr/bin/cloud-init clean
     command: /usr/bin/cloud-init clean
 
-  - name: Rotate logs
+  - name: /usr/sbin/logrotate -f /etc/logrotate.conf
     command: /usr/sbin/logrotate -f /etc/logrotate.conf
