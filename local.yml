@@ -21,7 +21,7 @@
 
   - name: Install /etc/netplan/00-installer-config.yaml
     ansible.builtin.copy:
-      src: 00-installer-config.yaml
+      src: files/00-installer-config.yaml
       dest: /etc/netplan/00-installer-config.yaml
 
   - name: Remove SSH host keys
