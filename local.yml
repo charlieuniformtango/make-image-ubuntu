@@ -19,6 +19,11 @@
   - name: Update grub
     command: /usr/sbin/update-grub
 
+  - name: Install /etc/netplan/00-installer-config.yaml
+    ansible.builtin.copy:
+      src: 00-installer-config.yaml
+      dest: /etc/netplan/00-installer-config.yaml
+
   - name: Remove SSH host keys
     ansible.builtin.file:
       path: "{{ item }}"
