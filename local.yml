@@ -40,3 +40,6 @@
 
   - name: Run cloud-init clean
     command: /usr/bin/cloud-init clean
+
+  - name: Rotate logs
+    command: /usr/sbin/logrotate -f /etc/logrotate.conf
